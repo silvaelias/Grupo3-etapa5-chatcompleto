@@ -1,11 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>br.ufs.dcomp.ExemploRabbitMQ</groupId>
-  <artifactId>ExemploRabbitMQJava</artifactId>
+  <groupId>br.ufs.dcomp.chat</groupId>
+  <artifactId>Chat</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>ExemploRabbitMQJava</name>
+  <version>4.0-RELEASE</version>
+  <name>Chat</name>
   <url>http://maven.apache.org</url>
+
   <build>
     <plugins>
       <plugin>
@@ -14,7 +16,7 @@
           <archive>
             <manifest>
               <mainClass>
-                br.ufs.dcomp.ExemploRabbitMQ.Emissor
+                br.ufs.dcomp.chat.Chat
               </mainClass>
             </manifest>
           </archive>
@@ -25,22 +27,24 @@
       </plugin>
     </plugins>
   </build>
-   <properties>
+  
+  <properties>
     <protobuf.version>3.15.8</protobuf.version>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.3</version>
+      <version>3.8.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.rabbitmq</groupId>
       <artifactId>amqp-client</artifactId>
-      <version>5.12.0</version>
+      <version>5.21.0</version>
     </dependency>
      <dependency>
        <groupId>org.slf4j</groupId>
@@ -52,5 +56,30 @@
        <artifactId>slf4j-simple</artifactId>
        <version>1.7.30</version>
    </dependency>
+   <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>3.25.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java-util</artifactId>
+      <version>3.5.1</version>
+    </dependency>
+    <dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.11.0</version>
+    </dependency>
+    <dependency>
+       <groupId>org.glassfish.jersey.core</groupId>
+       <artifactId>jersey-client</artifactId>
+       <version>2.27</version>
+    </dependency>
+    <dependency>
+       <groupId>org.glassfish.jersey.inject</groupId>
+       <artifactId>jersey-hk2</artifactId>
+       <version>2.27</version>
+    </dependency>
   </dependencies>
 </project>
