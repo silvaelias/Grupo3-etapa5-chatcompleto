@@ -48,9 +48,9 @@ public class Send {
         public void run() {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setUsername("admin"); 
-            factory.setPassword("password"); 
+            factory.setPassword("cl0ud$"); 
             factory.setVirtualHost("/");
-            factory.setHost("192.168.1.252"); 
+            factory.setHost("networkbalancerrabbitmq-1d605ec203675c51.elb.us-east-1.amazonaws.com"); 
             
             try {    
                 Connection connection = factory.newConnection();
@@ -106,3 +106,4 @@ public class Send {
         new Thread(envio).start();
     }
 }
+
