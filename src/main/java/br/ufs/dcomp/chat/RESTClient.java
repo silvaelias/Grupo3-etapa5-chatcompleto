@@ -2,61 +2,91 @@ package br.ufs.dcomp.chat;
 
 import com.google.gson.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class RESTClient {
-
-    private String path;
-
+    
+    private static String path;
+    
     public RESTClient(String path) {
         this.path = path;
     }
+    
+    public static String getPath() {
+        return path;
+    }
 
-    public String getData() {
+    public static String getData() {
+        
         String json = new String();
         
         try {
-            // Configuração da autenticação
+            // JAVA 8 como pré-requisito (ver README.md)
             String username = "admin";
-            String password = "password";
+            String password = "cl0ud$";
 
             String usernameAndPassword = username + ":" + password;
             String authorizationHeaderName = "Authorization";
             String authorizationHeaderValue = "Basic " + java.util.Base64.getEncoder().encodeToString(usernameAndPassword.getBytes());
      
-            // URL base do serviço REST
-            String restResource = "https://192.168.1.252";
+            // Perform a request
+            String restResource = "http://networkbalancerrabbitmq-1d605ec203675c51.elb.us-east-1.amazonaws.com";
 
-            // Configura o cliente HTTP para fazer a requisição
             Client client = ClientBuilder.newClient();
             Response resposta = client.target(restResource)
-                .path(this.path)
-                .request(MediaType.APPLICATION_JSON)
-                .header(authorizationHeaderName, authorizationHeaderValue)
-                .get(); // Executa o GET
-            
+            	.path(getPath())
+            	.request(MediaType.APPLICATION_JSON)
+                .header(authorizationHeaderName, authorizationHeaderValue) // The basic authentication header goes here
+                .get();     // Perform a post with the form values
+           
             if (resposta.getStatus() == 200) {
-                json = resposta.readEntity(String.class);
-            } else {
-                System.out.println("Falha ao obter dados. Status: " + resposta.getStatus());
+            	json = resposta.readEntity(String.class);
+                
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return json;
+            else {
+                System.out.println("Falha. Tente outra vez.");
+                System.exit(0);
+            }
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return json;
     }
-
+    
     public static void readData(String json) {
         try {
             JsonArray saida = (new Gson()).fromJson(json, JsonArray.class);
-            for (int i = 0; i < saida.size(); i++) {
-                System.out.println(saida.get(i).getAsJsonObject().toString());
+            String eval = saida.get(0).getAsJsonObject().get("source").getAsString();
+            if (eval.equals("")) {   
+                for (int i = 1; i < saida.size(); i++) {
+                    System.out.print(saida.get(i).getAsJsonObject().get("source").getAsString());
+                    if (i != saida.size()-1)
+                        System.out.print(", ");
+                }
             }
-        } catch (Exception e) {
+            else {
+                for (int i = 0; i < saida.size(); i++) {
+                    System.out.print(saida.get(i).getAsJsonObject().get("destination").getAsString());
+                    if (i != saida.size()-1)
+                        System.out.print(", ");
+                }
+            }
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
+    
+    public static void main(String[] args) {
+        String json = new String();
+        json = getData();
+        readData(json);
+    }
 }
+
